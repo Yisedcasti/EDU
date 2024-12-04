@@ -1,3 +1,15 @@
+<?php
+include_once "../administrador/php/publicaciones/configuracion/Conexion.php";
+$sentencia = $base_de_datos->prepare(" SELECT * FROM public_eventos 
+INNER JOIN registro ON registro.num_doc = Public_eventos.registro_num_doc");
+$sentencia->execute();
+$publicacionesEventos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+
+$sentencia = $base_de_datos->prepare(" SELECT * FROM public_noticias 
+INNER JOIN registro ON registro.num_doc = Public_noticias.registro_num_doc");
+$sentencia->execute();
+$publicacionesNoticias = $sentencia->fetchAll(PDO::FETCH_OBJ);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="principal.css">
-    <title>Document</title>
+    <title>Index</title>
 </head>
 <body>
     <header class="containerNav navbar navbar-expand-lg shadow fixed-top" style="background-color: #7f7b82;">
@@ -47,7 +59,8 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-6 text-center  mb-5">
-                        <a href="../administrador/admin/inicio2.php" class="btn btn-dark btn-lg" role="button">Iniciar Sesión</a>
+                    <a href="http://localhost:3000/administrador/admin/sesion/" class="btn btn-dark btn-lg" role="button">Iniciar Sesión</a>
+
                     </div>
                 </div>
             </div>
@@ -80,34 +93,22 @@
             
         <section class="eventos" id="eventos">
             <div id="carouselExampleCaptions" class="carousel slide">
+            <?php foreach ($publicacionesEventos as $publicacion): ?>
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="../administrador/imagenes/EVENTO1.jpg" class="d-block w-100" alt="...">
+                  <div class="carousel-item active c-item">
+                    <img src="<?php echo "../administrador/imagenes/" . htmlspecialchars($publicacion->img); ?>" class="d-block w-100 c-img" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>First slide label</h5>
-                      <p>Some representative placeholder content for the first slide.</p>
+                      <h5><?php echo htmlspecialchars($publicacion->evento); ?></h5>
+                      <p class="text-light"><?php echo htmlspecialchars($publicacion->fecha_evento); ?></p>
+                      <p><?php echo htmlspecialchars($publicacion->nombres); ?></p>
                     </div>
                   </div>
-                  <div class="carousel-item">
-                    <img src="../administrador/imagenes/EVENTO1.1.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Second slide label</h5>
-                      <p>Some representative placeholder content for the second slide.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="../administrador/imagenes/EVENTO1.2.jpg" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Third slide label</h5>
-                      <p>Some representative placeholder content for the third slide.</p>
-                    </div>
-                  </div>
-                </div>
+                 
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
@@ -116,59 +117,25 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
+                <?php endforeach; ?>
 </div>
         </section>
         <section>
             <section class="noticias" id="noticias">
+            <?php foreach ($publicacionesNoticias as $publicacion): ?>
                 <article class="articulo">
                     <header>
-                        <h2> Estimados padres de familia y acudientes:</h2>
+                        <h2><?php echo $publicacion->titulo ?></h2>
                     </header>
                     <p>
-                        Reciban un cordial saludo.
-                        Nos permitimos informarles que la entrega de boletines académicos del segundo trimestre se realizará el próximo viernes,
-                        <strong>12 de julio de 2024 de 8:00am a 12:00 pm</strong>. El lugar de la reunión será en los salones donde los estudiantes toman la clase.
-                    </p>
-                    <p>
-                        Es fundamental que asistan para conocer el rendimiento académico de sus hijos y discutir cualquier inquietud con los profesores. En caso de no poder asistir, favor comunicarse con la coordinación académica para programar una cita alternativa.
+                    <?php echo $publicacion->info ?>
                     </p>
                     <footer>
                         <p>Atentamente,</p>
-                        <p><strong>María Adela Quintero</strong></p>
+                        <p><strong><?php echo $publicacion->nombres ?> <?php echo $publicacion->apellidos ?></strong></p>
                     </footer>
                 </article>
-            
-                <article class="articulo">
-                    <header>
-                        <h2> Cordial saludo</h2>
-                    </header>
-                    <p>
-                        Les informamos que la tercera asamblea de padres de familia se realizará el próximo <strong>viernes 17 de julio en el horario de 7:00 a 8:20 am</strong>.
-                        Agradecemos su puntualidad ya que los docentes tienen clase a las 8:30am.
-                    </p>
-                    <footer>
-                        <p>Atentamente,</p>
-                        <p><strong>María Adela Quintero</strong></p>
-                    </footer>
-                </article>
-            
-                <article class="articulo">
-                    <header>
-                        <h2>Estimados padres de familia y acudientes:</h2>
-                    </header>
-                    <p>
-                        Reciban un cordial saludo.
-                        Nos permitimos informarles que la entrega de boletines académicos del segundo trimestre se realizará el próximo viernes,
-                        <strong>12 de julio de 2024 de 8:00am a 12:00 pm</strong>. El lugar de la reunión será en los salones donde los estudiantes toman la clase.
-                    </p>
-                    <p>
-                        Es fundamental que asistan para conocer el rendimiento académico de sus hijos y discutir cualquier inquietud con los profesores. En caso de no poder asistir, favor comunicarse con la coordinación académica para programar una cita alternativa.
-                    </p>
-                    <footer>
-                        <p>Atentamente,</p>
-                        <p><strong>María Adela Quintero</strong></p>
-                    </footer>
-                </article>
+                <?php endforeach; ?>
             </section>
         <section id="grupo"class="equipo col-md-12">
         <h2 class="text-center"><b>EQUIPO</b></h2>

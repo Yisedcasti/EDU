@@ -12,25 +12,16 @@ try {
         $fecha_entrega = $_POST['fecha_entrega'];
         $codigo_logro = $_POST['codigo_logro'];
 
-        // Primera consulta: actualizar la tabla nota
-        $logro = $base_de_datos->prepare("
-            UPDATE nota
-            SET actividad_logro_Codigo_logro = ?
-            WHERE id_actividad = ?");
-        $resultadologro = $logro->execute([$codigo_logro, $id_actividad]);
-
         // Segunda consulta: actualizar la tabla actividad
         $sentencia = $base_de_datos->prepare("
             UPDATE actividad
-            SET nom_actividad = ?, descrip_actividad = ?, fecha_entrega = ?, logro_Codigo_logro = ?
+            SET nombre_act = ?, descripcion = ?, fecha_entrega = ?, logro_id_logro = ?
             WHERE id_actividad = ?");
         $resultado = $sentencia->execute([$nom_actividad, $descrip_actividad, $fecha_entrega, $codigo_logro, $id_actividad]);
 
-        // Verificar si ambas consultas fueron exitosas
-        if ($resultado && $resultadologro) {
-            // Redirigir solo si todo salió bien
+        if ($resultado) {
             header("Location: actividad.php");
-            exit(); // Asegurarse de que el script no siga ejecutándose después de la redirección
+            exit();
         } else {
             // Si algo salió mal, mostrar mensaje de error
             echo "Error al actualizar la actividad o el logro. Verifica los datos e intenta nuevamente.";

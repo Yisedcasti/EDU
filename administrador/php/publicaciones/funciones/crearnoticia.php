@@ -4,24 +4,34 @@ try {
     include_once "../configuracion/conexion.php";
     
     $informacion = $_POST["informacion"];
-    $titulo= $_POST["titulo"];
-    $escritoPor = $_POST["escritoPor"];
+    $titulo = $_POST["titulo"];
+    $registro_num_doc = $_POST["registro_num_doc"];
 
     // Preparar la sentencia SQL
-    $sentencia = $base_de_datos->prepare("INSERT INTO publicacion ( informacion	, titulo, escritoPor) 
+    $sentencia = $base_de_datos->prepare("INSERT INTO public_noticias(titulo, info, registro_num_doc) 
         VALUES (?, ?, ?);");
     
     // Ejecutar la sentencia con los datos proporcionados
-    $resultado = $sentencia->execute([ $informacion, $titulo, $escritoPor]);
+    $resultado = $sentencia->execute([$titulo, $informacion, $registro_num_doc]);
 
     if ($resultado === TRUE) {
-        echo "Cambios Guardados";
+        // Mostrar mensaje de éxito y redirigir
+        echo "<script>
+                alert('Cambios guardados exitosamente.');
+                window.location.href = '../vistas/publicaciones_crear.php';
+              </script>";
     } else {
-        echo "Algo salió mal. Por favor, verifica que la tabla exista.";
+        // Mostrar mensaje de error y redirigir
+        echo "<script>
+                alert('Algo salió mal. Por favor, verifica que la tabla exista.');
+                window.location.href = '../vistas/publicaciones_crear.php';
+              </script>";
     }
-}
-catch (PDOException $e) {
-    // Capturar y mostrar cualquier error que ocurra
-    echo "Error: " . $e->getMessage();
+} catch (PDOException $e) {
+    // Capturar y mostrar cualquier error en una alerta
+    echo "<script>
+            alert('Error: " . $e->getMessage() . "');
+            window.location.href = '../vistas/publicaciones_crear.php';
+          </script>";
 }
 ?>

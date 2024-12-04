@@ -86,9 +86,9 @@ include "consultarcurso.php";
   ?>
       <div class="col-auto">
         <div class="card text-bg-light mb-3" style="max-width: 8rem;">
-          <div class="card-header"><?php echo htmlspecialchars($curso->grado); ?></div>
+          <div class="card-header"><b> Grado: </b><?php echo htmlspecialchars($curso->grado); ?></div>
           <div class="card-body">
-            <p class="card-text text-center"><?php echo htmlspecialchars($curso->curso); ?></p>
+            <p class="card-text text-center"><b> Curso:</b><br><?php echo htmlspecialchars($curso->curso); ?></p>
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#actualizar<?= $curso->id_cursos ?>">
               <i class="fas fa-edit"></i>
             </button>

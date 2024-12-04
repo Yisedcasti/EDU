@@ -1,11 +1,11 @@
 <?php
 session_start();
-
-// Verificar si la sesión está activa y si el usuario está autenticado
 if (!isset($_SESSION['userId'])) {
-    header("Location: ../session.php");
+    $_SESSION['error_message'] = "Debes iniciar sesión para acceder a esta página.";
+    header("Location: ../index.php");
     exit();
-} 
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,9 +28,9 @@ if (!isset($_SESSION['userId'])) {
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">EDUFAST</div>
             <div class="list-group list-group-flush my-3">
 
-                <a href="../php/publicaciones/funciones/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
+                <a href="../php/publicaciones/vistas/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
 
-                <a href="registros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Registro</a>
+                <a href="../php/registro/view/index_registros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Registro</a>
 
                 <a href="../php/jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
 
@@ -38,7 +38,7 @@ if (!isset($_SESSION['userId'])) {
 
                 <a href="../php/cursos/curso.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Cursos</a>
 
-                <a href="../php/asistencia/asistencia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Asistencias</a>
+                <a href="../php/asistencia/listados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Asistencias</a>
 
                 <a href="../php/materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
 
@@ -81,7 +81,7 @@ if (!isset($_SESSION['userId'])) {
 			<div class="container mt-5">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h1>Bienvenido Admin</h1>
+                        <h1>Hola <?php echo $_SESSION['user']; ?> </h1>
                         <p class="lead"> En este espacio podra  hacer varias cosas, podras registrar a los estudiantes, profesores, coordinadores y poderles asignar materias, cursos, grados, tener una asistencia y listado de los alumnos y muchas cosas màs. </p>
                     </div>
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4  ">

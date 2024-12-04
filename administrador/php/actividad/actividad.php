@@ -79,14 +79,14 @@ include_once "consultar.php";
         <section class="col -lg- 4 col-md-3 col-sm-6 col-12 mb-4">
           <section class="card">
             <section class="card-body">
-              <h3 class="card-title text-center"><b><?php echo htmlspecialchars($actividad->nom_actividad); ?></b></h3>
+              <h3 class="card-title text-center"><b><?php echo htmlspecialchars($actividad->nombre_act); ?></b></h3>
               <p class="card-text"><?php echo htmlspecialchars($actividad->nombre_logro); ?></p>
-              <p class="card-text"><?php echo htmlspecialchars($actividad->descrip_actividad); ?></p>
+              <p class="card-text"><?php echo htmlspecialchars($actividad->descripcion); ?></p>
               <p class="crad-text"><?php echo htmlspecialchars($actividad->fecha_entrega); ?></p>
               <div class="d-flex justify-content-between">
 
                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $actividad->id_actividad ?>">
-                <i class="fas fa-trash-alt"></i>
+                <i class="fas fa-trash-alt"></i></button>
 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#actualizarModal<?php echo $actividad->id_actividad ?>">
     <i class="fas fa-edit"></i>
 </button>
@@ -96,6 +96,10 @@ include_once "consultar.php";
             </section>
             </section>
             <?php endforeach; ?>
+             <!-- Botón Crear  -->
+        <div class="d-flex justify-content-center mb-4">
+            <a class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#crear">Crear Curso</a>
+        </div>
           </section>
 
 
@@ -113,12 +117,12 @@ include_once "consultar.php";
                     <input type="hidden" name="id_actividad" id="id_actividad" value="<?php echo $actividad->id_actividad ?>">
                     <div class="mb-3">
                         <label for="nom_actividad" class="form-label">Nombre de la Actividad</label>
-                        <input type="text" class="form-control" id="nom_actividad" name="nom_actividad" value="<?php echo $actividad->nom_actividad ?>" required>
+                        <input type="text" class="form-control" id="nom_actividad" name="nom_actividad" value="<?php echo $actividad->nombre_act ?>" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="descrip_actividad" class="form-label">Descripción de la Actividad</label>
-                        <input type="text" class="form-control" id="descrip_actividad" name="descrip_actividad" value="<?php echo $actividad->descrip_actividad ?>" required>
+                        <input type="text" class="form-control" id="descrip_actividad" name="descrip_actividad" value="<?php echo $actividad->descripcion ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="fecha_entrega">Fecha de Entrega</label>
@@ -128,8 +132,8 @@ include_once "consultar.php";
     <label for="codigo_logro">Logro</label>
     <select class="form-control" name="codigo_logro" id="codigo_logro" required>
         <?php foreach ($logros as $logro): ?>
-            <option value="<?= $logro['codigo_logro'] ?>" 
-                <?= isset($_POST['codigo_logro']) && $_POST['codigo_logro'] == $logro['codigo_logro'] ? 'selected' : '' ?>>
+            <option value="<?= $logro['id_logro'] ?>" 
+                <?= isset($_POST['id_logro']) && $_POST['id_logro'] == $logro['id_logro'] ? 'selected' : '' ?>>
                 <?= $logro['nombre_logro'] ?>
             </option>
         <?php endforeach; ?>
@@ -178,7 +182,7 @@ include_once "consultar.php";
                         <label for="codigo_logro">Logro</label>
                         <select class="form-control" name="codigo_logro" id="codigo_logro" required>
                             <?php foreach ($logros as $logro): ?>
-                                <option value="<?= $logro['codigo_logro'] ?>"><?= $logro['nombre_logro'] ?></option>
+                                <option value="<?= $logro['id_logro'] ?>"><?= $logro['nombre_logro'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -190,12 +194,13 @@ include_once "consultar.php";
         </div>
     </div>
 </div>
+
 <?php foreach($actividades as $actividad): ?>
-    <div class="modal fade" id="confirmarModal<?php echo $actividad->id_actividad ?>" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel<?php echo $persona->num_doc ?>" aria-hidden="true">
+    <div class="modal fade" id="confirmarModal<?php echo $actividad->id_actividad ?>" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel<?php echo $actividad->id_actividad ?>" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmarModalLabel<?php echo $actividad->id_actividad ?>">Confirmar Eliminación <?php echo $actividad->nom_actividad ?> </h5>
+                    <h5 class="modal-title" id="confirmarModalLabel<?php echo $actividad->id_actividad ?>">Confirmar Eliminación <?php echo $actividad->nombre_act ?> </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

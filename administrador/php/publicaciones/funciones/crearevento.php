@@ -1,30 +1,25 @@
 <?php
 try {
-    // Incluir la conexión a la base de datos
     include_once "../configuracion/conexion.php";
     
     $evento = $_POST["evento"];
     $fecha_evento = $_POST["fecha_evento"];
+    $registro_num_doc = $_POST["registro_num_doc"];
     
-    // Verificar si el archivo se ha subido
     if (isset($_FILES['imagen'])) {
         $imagen = $_FILES['imagen']['name'];
         $tmp_name = $_FILES['imagen']['tmp_name'];
         $directorio = '../../../imagenes/';
         
-        // Crear el directorio si no existe
         if (!is_dir($directorio)) {
             mkdir($directorio, 0777, true);
         }
         
-        // Mover el archivo subido
         if (move_uploaded_file($tmp_name, $directorio . $imagen)) {
-            // Preparar la sentencia SQL
-            $sentencia = $base_de_datos->prepare("INSERT INTO publicacion (imagen, evento, fecha_evento) 
-                VALUES (?, ?, ?);");
-    
-            // Ejecutar la sentencia con los datos proporcionados
-            $resultado = $sentencia->execute([$imagen, $evento, $fecha_evento]);
+            $sentencia = $base_de_datos->prepare("INSERT INTO public_eventos (img, evento, fecha_evento, registro_num_doc) 
+                VALUES (?, ?, ?, ?);");
+                
+            $resultado = $sentencia->execute([$imagen, $evento, $fecha_evento, $registro_num_doc]);
             
             if ($resultado === TRUE) {
                 echo "Cambios Guardados";

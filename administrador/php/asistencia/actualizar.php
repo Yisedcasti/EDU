@@ -4,22 +4,23 @@ try {
     
     // Obtener los datos del formulario
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       $id_asistencia = $_POST['id_asistencia'];
-       $fecha_asistencia = $_POST['fecha_asistencia'];
+       $idAsistencia = $_POST['idAsistencia'];
+       date_default_timezone_set('America/Bogota');
+    $fecha = date('Y-m-d H:i:s');
        $asistencia = $_POST['asistencia'];
-       $registro_num_doc = $_POST['registro_num_doc'];
+       $matricula_id_matricula =$_POST['matricula_id_matricula'];   
 
 
         // Preparar la consulta SQL para actualizar los datos
         $sentencia = $base_de_datos->prepare("
             UPDATE asistencia
-            SET fecha_asistencia = ?,asistencia = ?, registro_num_doc = ?
-            WHERE id_asistencia = ? ");
-        $resultado = $sentencia->execute([$fecha_asistencia, $asistencia, $registro_num_doc, $id_asistencia]);
+            SET fecha_asistencia = ?,asistencia = ?
+            WHERE idAsistencia = ? ");
+        $resultado = $sentencia->execute([$fecha, $asistencia, $idAsistencia]);
 
         if ($resultado === TRUE) {
             echo "Cambios Guardados";
-            header("Location: asistencia.php");
+            header("Location: asistencia.php?id_matricula=$matricula_id_matricula");
         } else {
             echo "Algo salió mal. Por favor, verifica que la tabla exista.";
         }

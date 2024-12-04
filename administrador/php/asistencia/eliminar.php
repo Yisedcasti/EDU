@@ -1,27 +1,22 @@
 <?php
-if (!isset($_POST["id_asistencia"])) {
+include_once "conexion.php";
+
+if (!isset($_POST["idAsistencia"])) {
     exit();
 }
 
-$id_asistencia = $_POST["id_asistencia"];
-include_once "conexion.php";
+$idAsistencia = $_POST["idAsistencia"];
+$matricula_id_matricula =$_POST['matricula_id_matricula'];  
 
-$sentencia = $base_de_datos->prepare("DELETE FROM asistencia WHERE id_asistencia = ?;");
-$resultado = $sentencia->execute([$id_asistencia]);
+
+$sentencia = $base_de_datos->prepare("DELETE FROM asistencia WHERE idAsistencia = ?;");
+$resultado = $sentencia->execute([$idAsistencia]);
 
 if ($resultado) {
-    echo '
-    <script>
-    alert("El usuario ha sido eliminado correctamente.");
-    window.location.href = "asistencia.php";
-    </script>
-    ';
+    echo "Se a eliminado correctamente";
+    header("Location: asistencia.php?id_matricula=$matricula_id_matricula");
 } else {
-    echo '
-    <script>
-    alert("El usuario NO ha sido eliminado.");
-    window.location.href = "asistencia.php";
-    </script>
-    ';
+    echo "ocurrio un error";
+    header("Location: asistencia.php?id_matricula=$matricula_id_matricula");
 }
 ?>

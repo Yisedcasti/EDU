@@ -8,8 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo_logro = $_POST['codigo_logro'];
 
     try {
-        // Primero consultamos el 'materia_id_materia' desde la tabla 'logro'
-        $consultar = $base_de_datos->prepare("SELECT id_materia FROM logro WHERE codigo_logro = ?");
+        $consultar = $base_de_datos->prepare("SELECT  
+	    materia_id_materia,
+	    materia_grado_id_grado, 
+	    materia_area_id_area, 
+	    materia_docente_id_docente, 
+		materia_docente_cursos_id_cursos, 
+		materia_docente_cursos_grado_id_grado, 
+		materia_docente_registro_num_doc, 
+		materia_docente_registro_rol_id_rol, 
+		materia_docente_registro_jornada_id_jornada
+        FROM logro WHERE id_logro = ?");
         $consultar->execute([$codigo_logro]);
         $resultado = $consultar->fetch(PDO::FETCH_ASSOC);
 
@@ -17,22 +26,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit("No se encontró información para este logro.");
         }
 
-        // Guardamos el 'materia_id_materia'
-        $id_materia = $resultado['id_materia'];
+        $materia_id_materia= $resultado['materia_id_materia'];
+        $materia_grado_id_grado= $resultado['materia_grado_id_grado'];
+        $materia_area_id_area= $resultado['materia_area_id_area'];
+        $materia_docente_id_docente= $resultado['materia_docente_id_docente'];
+        $materia_docente_cursos_id_cursos= $resultado['materia_docente_cursos_id_cursos'];
+        $materia_docente_cursos_grado_id_grado= $resultado['materia_docente_cursos_grado_id_grado'];
+        $materia_docente_registro_num_doc= $resultado['materia_docente_registro_num_doc'];
+        $materia_docente_registro_rol_id_rol= $resultado['materia_docente_registro_rol_id_rol'];
+        $materia_docente_registro_jornada_id_jornada= $resultado['materia_docente_registro_jornada_id_jornada'];
 
-        // Preparamos la sentencia SQL para insertar en la tabla 'actividad'
-        $sql = "INSERT INTO actividad (nom_actividad, descrip_actividad, fecha_entrega, logro_codigo_logro, logro_materia_id_materia) 
-                VALUES (:nom_actividad, :descrip_actividad, :fecha_entrega, :codigo_logro, :id_materia)";
+        $sql = "INSERT INTO actividad (
+        nombre_act,
+        descripcion, 
+        fecha_entrega, 
+        logro_id_logro,
+        logro_materia_id_materia,
+	    logro_materia_grado_id_grado, 
+	    logro_materia_area_id_area, 
+	    logro_materia_docente_id_docente, 
+		logro_materia_docente_cursos_id_cursos, 
+		logro_materia_docente_cursos_grado_id_grado, 
+		logro_materia_docente_registro_num_doc, 
+		logro_materia_docente_registro_rol_id_rol, 
+		logro_materia_docente_registro_jornada_id_jornada) 
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         
         $stmt = $base_de_datos->prepare($sql);
 
         // Ejecutamos la inserción
         $stmt->execute([
-            ':nom_actividad' => $nom_actividad,
-            ':descrip_actividad' => $descrip_actividad,
-            ':fecha_entrega' => $fecha_entrega,
-            ':codigo_logro' => $codigo_logro,
-            ':id_materia' => $id_materia
+            $nom_actividad,
+            $descrip_actividad,
+            $fecha_entrega,
+            $codigo_logro,
+            $materia_id_materia,
+            $materia_grado_id_grado,
+            $materia_area_id_area,
+            $materia_docente_id_docente,
+            $materia_docente_cursos_id_cursos,
+            $materia_docente_cursos_grado_id_grado,
+            $materia_docente_registro_num_doc,
+            $materia_docente_registro_rol_id_rol,
+            $materia_docente_registro_jornada_id_jornada 
         ]);
 
         // Redirigir o mostrar un mensaje de éxito

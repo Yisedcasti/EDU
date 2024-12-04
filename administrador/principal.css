@@ -50,9 +50,7 @@ min-height: 100vh;
     color: #333;
 }
 
-.reverse {
-    flex-direction: row-reverse;
-}
+
 
 .eventos{
     width: 100%;
@@ -65,7 +63,6 @@ min-height: 100vh;
     box-sizing: border-box; 
 }
 
- 
 
 .noticias {
     display: flex;

@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <a class="nav-link active" href="../index.php">Index</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="../php/registro/funciones/registro.php">Registrarse</a>
+                            <a class="nav-link active" href="registro.php">Registrarse</a>
                         </li>
                     </ul>
                 </div>

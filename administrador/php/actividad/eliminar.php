@@ -6,9 +6,6 @@ if (!isset($_POST["id_actividad"])) {
 $id_actividad = $_POST["id_actividad"];
 include_once "conexion.php";
 
-$sentencia = $base_de_datos->prepare("DELETE FROM nota WHERE actividad_id_actividad = ?;");
-$resultado = $sentencia->execute([$id_actividad]);
-
 $sentencia = $base_de_datos->prepare("DELETE FROM actividad WHERE id_actividad = ?;");
 $resultado = $sentencia->execute([$id_actividad]);
 

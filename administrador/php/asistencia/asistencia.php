@@ -1,6 +1,29 @@
 <?php
+session_start();
 include_once "consultar.php";
+if (!isset($_SESSION['userId'])) {
+    header("Location: ../../admin/session.php");
+    exit();
+}
+
+ $id_matricula = isset($_GET['id_matricula']) ? $_GET['id_matricula'] : null;
+    
+ if ($id_matricula !== null) {
+     $sql = "SELECT * FROM asistencia
+     INNER JOIN matricula ON asistencia.matricula_id_matricula = matricula.id_matricula 
+     INNER JOIN registro ON asistencia.matricula_estudiante_registro_num_doc  = registro.num_doc
+     WHERE matricula_id_matricula = :id_matricula";
+     $stmt = $base_de_datos->prepare($sql);
+     $stmt->bindParam(':id_matricula', $id_matricula, PDO::PARAM_INT);
+     $stmt->execute();
+     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+     
+ } else {
+     echo "ID de matrícula no proporcionado.";
+ }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +43,7 @@ include_once "consultar.php";
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">EDUFAST</div>
             <div class="list-group list-group-flush my-3">
 
-                <a href="../admin/crear/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
+                <a href="../admin/crear/publicaciones_-crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
 
                 <a href="../php/registro/funciones/registro.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Registro</a>
 
@@ -35,6 +58,7 @@ include_once "consultar.php";
                 <a href="nota.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
                 <a href="../php/actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
                 <a href="../php/notas/notas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Notas</a>
+                <a href="../../admin/pag_principal.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Notas</a>
             </div>
         </div>
 
@@ -53,13 +77,16 @@ include_once "consultar.php";
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="listados.php">Volver</a>
+  </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>Maria Camila Torres Jaramillo
+                                <i class="fas fa-user me-2"></i><?php echo $_SESSION['user']; ?> <?php echo $_SESSION['usera']; ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Salir</a></li>
+                                <li><a class="dropdown-item" href="../../index.php">Salir</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -72,7 +99,7 @@ include_once "consultar.php";
                     <main class="main-container ">
                     <h1 class="text-dark m-4">Asistencias</h1>
         <section class="container">
-        <?php foreach ($asistencias as $asistencia) : ?>
+      
             <table class="table mb-5">
                 <tr>
                     <th  class="text-center">Asistencia</th>
@@ -80,26 +107,24 @@ include_once "consultar.php";
                     <th  class="text-center">Alumno</th>
                     <th  class="text-center">Acciones</th>
                 </tr>
-                <tr>
-                    <td class="cursos text-center mt-3"><?php echo htmlspecialchars($asistencia->asistencia); ?></td>
-                    <td class="cursos text-center mt-3"><?php echo htmlspecialchars($asistencia->fecha_asistencia); ?></td>
-                    <td class="cursos text-center mt-3"><?php echo htmlspecialchars($asistencia->nombre); ?> <?php echo htmlspecialchars($asistencia->apellido); ?></td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#actualizarModal<?php echo $asistencia->id_asistencia ?>"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $asistencia->id_asistencia ?>"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
+                <?php foreach ($resultado as $fila) { ?>
+    <tr>
+        <td class="cursos text-center mt-3"><?php echo htmlspecialchars($fila['asistencia']); ?></td>
+        <td class="cursos text-center mt-3"><?php echo htmlspecialchars($fila['fecha_asistencia']); ?></td>
+        <td class="cursos text-center mt-3"><?php echo htmlspecialchars($fila['nombres']); ?> <?php echo htmlspecialchars($fila['apellidos']); ?></td>
+        <td class="text-center">
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#actualizarModal<?php echo $fila['idAsistencia']; ?>"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#confirmarModal<?php echo $fila['idAsistencia']; ?>"><i class="fas fa-trash-alt"></i></button>
+        </td>
+    </tr>
+<?php } ?>
             </table>
-            <?php endforeach; ?>
-            <div class="d-flex justify-content-center mb-4">
-            <a class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#crear">Crear Curso</a>
-        </div>
         </section>
         
 
 <!-- actualizar -->
 <?php foreach($asistencias as $asistencia): ?>
-<div class="modal fade" id="actualizarModal<?php echo $asistencia->id_asistencia ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="actualizarModal<?php echo $asistencia->idAsistencia ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,28 +133,41 @@ include_once "consultar.php";
             </div>
             <div class="modal-body">
                 <form id="formActualizar" method="POST" action="Actualizar.php">
-                    <input type="hidden" name="id_asistencia" id="id_asistencia" value="<?php echo $asistencia->id_asistencia ?>">
-                    <div class="form-group">
-    <label for="registro_num_doc">Estudiante</label>
-    <select class="form-control" name="registro_num_doc" id="registro_num_doc" required>
-                                    <?php foreach ($registros as $registro): ?>
-                                        <option value="<?= $registro['num_doc'] ?>" <?= $asistencia->registro_num_doc == $registro['num_doc'] ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($registro['nombre']) ?> <?= htmlspecialchars($registro['apellido']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-</div>
-                    <div class="mb-3">
+                    <input type="hidden" name="idAsistencia" id="idAsistencia" value="<?php echo $asistencia->idAsistencia ?>">
+                    <div class="form-group mt-3">
+    <label for="registro_num_doc" class="form-label">Estudiante</label>
+    <input type="text" class="form-control border-dark bg-transparent text-center" id="nombre" name="nombre" value="<?php echo $asistencia->nombres ?> <?php echo $asistencia->apellidos ?>" readonly>
+    <input type="hidden" class="form-control border-dark bg-transparent text-center" id="matricula_id_matricula" name="matricula_id_matricula" value="<?php echo $asistencia->matricula_id_matricula ?> " readonly>
+      </div>
+                    <div class="mb-3 mt-3">
                         <label for="fecha_asistencia" class="form-label">Fecha Asistencia</label>
-                        <input type="date" class="form-control" id="fecha_asistencia" name="fecha_asistencia" value="<?php echo $asistencia->fecha_asistencia ?>" required>
+                        <input type="text" class="form-control border-dark bg-transparent text-center" id="fecha_asistencia" name="fecha_asistencia" value="<?php echo $asistencia->fecha_asistencia?>" readonly>
                     </div>
+                    <div class="mb-3 mt-3">
+    <label for="asistencia" class="form-label">Asistencia</label>
+    <div class="form-check">
+        <input class="form-check-input border-dark" type="radio" name="asistencia" id="Presente" value="Presente" <?php echo ($asistencia->asistencia == 'Presente') ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="Presente">
+            Presente
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input border-dark" type="radio" name="asistencia" id="Ausente" value="Ausente" <?php echo ($asistencia->asistencia == 'Ausente') ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="Ausente">
+            Ausente
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input border-dark" type="radio" name="asistencia" id="justificado" value="Justificado" <?php echo ($asistencia->asistencia == 'Justificado') ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="Justificado">
+            Justificado
+        </label>
+    </div>
+</div>
 
-                    <div class="mb-3">
-                        <label for="asistencia" class="form-label">Asistencia</label>
-                        <input type="text" class="form-control" id="asistencia" name="asistencia" value="<?php echo $asistencia->asistencia ?>" required>
-</div>              
+            
                     <div class="modal-footer mt-3 justify-content-center">
-                    <button type="submit" class="btn btn-dark r">Actualizar</button>
+                    <button type="submit" class="btn btn-success">Actualizar</button>
         </div>
                 </form>
             </div>
@@ -138,57 +176,14 @@ include_once "consultar.php";
 </div>
 <?php endforeach; ?>
 
-          <!-- FORMULARIO CREAR -->
-
-<div class="modal fade" id="crear" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tituloformulario" aria-hidden="true">
-<?php if (!empty($mensaje)): ?>
-        <div class="alert <?= $claseAlerta; ?> alert-dismissible fade show" role="alert">
-            <?= $mensaje; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tituloformulario">Crear Logro</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h2 class="mt-5">Crear Actividad</h2>
-                <form action="guardar.php" method="POST">
-                <div class="form-group">
-                        <label for="registro_num_doc">Alumno</label>
-                        <select class="form-control" name="registro_num_doc" id="registro_num_doc" required>
-                            <?php foreach ($registros as $registro): ?>
-                                <option value="<?= $registro['num_doc'] ?>"><?= $registro['nombre'] ?> <?= $registro['apellido'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="asistencia">Asistencia</label>
-                        <input type="text" class="form-control" id="asistencia" name="asistencia" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha_asistencia">fecha_asistencia</label>
-                          <input type="date" class="form-control" id="asistencia" name="fecha_asistencia" required>
-                    </div>
-                    
-                    <div class="modal-footer m-3 justify-content-cente">
-                        <button type="submit" class="btn btn-dark">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
                             <!--Eliminar-->
 <?php foreach($asistencias as $asistencia): ?>
-    <div class="modal fade" id="confirmarModal<?php echo $asistencia->id_asistencia ?>" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel<?php echo $asistencia->id_asistencia ?>" aria-hidden="true">
+    <div class="modal fade" id="confirmarModal<?php echo $asistencia->idAsistencia ?>" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel<?php echo $asistencia->idAsistencia ?>" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmarModalLabel<?php echo $asistencia->id_asistencia?>">Confirmar Eliminación <?php echo $asistencia->asistencia ?> </h5>
+                    <h5 class="modal-title" id="confirmarModalLabel<?php echo $asistencia->idAsistencia?>">Confirmar Eliminación <?php echo $asistencia->asistencia ?> </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -197,7 +192,8 @@ include_once "consultar.php";
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <form method="POST" action="eliminar.php">
-                        <input type="hidden" name="id_asistencia" value="<?php echo $asistencia->id_asistencia ?>">
+                        <input type="hidden" name="idAsistencia" value="<?php echo $asistencia->idAsistencia ?>">
+                        <input type="hidden" class="form-control border-dark bg-transparent text-center" id="matricula_id_matricula" name="matricula_id_matricula" value="<?php echo $asistencia->matricula_id_matricula ?> " readonly>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </div>

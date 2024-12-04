@@ -1,99 +1,166 @@
 <?php
-include_once "perfilconsulta.php";
+session_start();
+if (!isset($_SESSION['userId'])) {
+    $_SESSION['error_message'] = "Debes iniciar sesión para acceder a esta página.";
+    header("Location: ../index.php");
+    exit();
+}
+ include_once "../funciones/consulta.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del Usuario</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../../css/perfil.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="../../../css/nav.css"/>
+  
+    <title>Perfil</title>
 </head>
 <body>
-<header class="navbar navbar-expand-lg bg-body-tertiary shadow">
-    <div class="container d-flex justify-content-between align-items-left">
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold text-success d-flex align-items-center gap-2" href="#">
-            <img src="../../../imagenes/logo.png" alt="Logo" width="68" height="68" class="d-inline-block align-text-top">
-            <span class="text-dark">EDUFAST</span>
-        </a>
-        <!-- Botón Responsive -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="d-flex" id="wrapper">
 
-        <!-- Menú -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav ms-auto fs-5">
-                <a class="nav-link active" href="../funciones/registro.php">Volver</a>
+        <div class="listado" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">EDUFAST</div>
+            <div class="list-group list-group-flush my-3">
+
+                <a href="../php/publicaciones/vistas/publicaciones_crear.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Publicaciones</a>
+
+                <a href="../php/jornadas/vistas/jornadas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Jornadas</a>
+
+                <a href="../php/grados/vistas/grados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Grados</a>
+
+                <a href="../php/cursos/curso.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Cursos</a>
+
+                <a href="../php/asistencia/listados.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Asistencias</a>
+
+                <a href="../php/materiaphp/materia.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Materias</a>
+
+                <a href="../php/logrophp/logros.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Logros</a>
+                <a href="../php/actividad/actividad.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Actividades</a>
+                <a href="../php/notas/notas.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Notas</a>
+                <a href="../php/Observador/view/vista_o.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Observador</a>
+                <a href="../php/Boletin/view/boletin.html" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">Boletin</a>
+            </div>
+        </div>
+
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left fs-4 me-3" id="menu-toggle"></i>
+                    <h2 class="fs-2 m-0">Bienvenido</h2>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="index_registros.php">Volver</a>
+  </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-2"></i><?php echo $_SESSION['user']; ?> <?php echo $_SESSION['usera']; ?>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="cerrar.php">Salir</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+			<div class="container">
+                <div class="row">
+                    <div class="cols-1 cols-md-2 cols-lg-3 g-4  ">
+                    <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-body text-center">
+            <?php foreach ($perfiles as $perfil): ?>
+            <img src="<?php echo "../../../imagenes/" . htmlspecialchars($perfil->foto_perfil); ?>" 
+            alt="Imagen de Perfil" class="profile-img mb-3" style="width: 100px;">
+        <input type="hidden" name="foto_perfil" value="<?php echo htmlspecialchars($perfil->foto_perfil); ?>">
+            <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->nombres); ?> <?php echo htmlspecialchars($perfil->apellidos); ?>" 
+               class="form-control border-0 bg-transparent text-center fs-4">
+
+               <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->cel); ?> " 
+               class="form-control border-0 bg-transparent text-center fs-5">
+
+               <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->telefono); ?> " 
+               class="form-control border-0 bg-transparent text-center fs-5"></a>
+
+               <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->direccion); ?> " 
+               class="form-control border-0 bg-transparent text-center fs-5"></a>
+
+               <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->correo); ?>" 
+               class="form-control border-0 bg-transparent text-center fs-5">
+
+               <input type="text" 
+               name="evento" 
+               value="<?php echo htmlspecialchars($perfil->jornada); ?>" 
+               class="form-control border-0 bg-transparent text-center fs-5">
+            <!-- Enlaces de redes sociales -->
+            <div class="mt-4">
+              <a href="#" class="btn btn-success btn-sm me-2">
+                <i class="bi bi-linkedin"></i> Actualizar
+              </a>
+            </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+    </main>
+                </div>
+            </div>
+
             </div>
         </div>
     </div>
-</header>
-    <section class="main-container">
-        <h1>Datos del Usuario</h1>
-        <div class="formulario">
-            <div class="foto_perfil">
-                <img src="../../../imagenes/5.jpeg" alt="Perfil">
-            </div>
-            <div class="form-group">
-                <label>Rol</label>
-                <p><?php echo htmlspecialchars($persona->rol); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Jornada</label>
-                <p><?php echo htmlspecialchars($persona->jornada); ?></p>
-</div>
-<div class="form-group">
-                <label>Grado</label>
-                <p><?php echo htmlspecialchars($persona->grado ); ?></p>
-            </div>
-            <div class="form-group">
-                <label>curso</label>
-                <p><?php echo htmlspecialchars($persona->curso); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Número de documento</label>
-                <p><?php echo htmlspecialchars($persona->num_doc); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Tipo de documento</label>
-                <p><?php echo htmlspecialchars($persona->tipo_doc); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Nombres</label>
-                <p><?php echo htmlspecialchars($persona->nombre); ?></p>
-                <label>Apellidos</label>
-                <p><?php echo htmlspecialchars($persona->apellido); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Celular</label>
-                <p><?php echo htmlspecialchars($persona->celular); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Correo</label>
-                <p><?php echo htmlspecialchars($persona->correo); ?></p>
-            </div>
-            <div class="form-group">
-                <label>Usuario</label>
-                <p><?php echo htmlspecialchars($persona->usuario); ?></p>
-                <label>Contraseña</label>
-                <p><?php echo htmlspecialchars($persona->contraseña); ?></p>
-            </div>
-            <button class="btn"><a href="<?php echo "../funciones/actualizaregistro.php?id=" . $persona->num_doc ?>.">Ir a actualizar</a></button>
+<footer class="footer-bottom bg-dark text-white text-center py-3 mt-auto">
+        <p class="mb-0">©2024 codeOpacity. Designed by <span>EDUFAST</span></p>
+        <div class="socials d-flex justify-content-center mt-2">
+            <a href="https://www.facebook.com/cedid.sanpablo.3?locale=es_LA" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/plumapaulista/" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/Cedidsanpablo" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="mailto:cedidsanpablobosa7@educacionbogota.edu.co" class="text-white mx-2"><i class="fab fa-google"></i></a>
         </div>
-    </section>
-    <footer class="footer-bottom">
-    <p>copyright &copy;2024 codeOpacity. designed by <span>EDUFAST</span></p>
-    <footer class="socials">
-        <a href="https://www.facebook.com/cedid.sanpablo.3?locale=es_LA" class="icon"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/plumapaulista/" class="icon"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/Cedidsanpablo" class="icon"><i class="fab fa-twitter"></i></a>
-        <a href="mailto:cedidsanpablobosa7@educacionbogota.edu.co" class="icon"><i class="fab fa-google"></i></a>
     </footer>
-</footer>
-script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var el = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            el.classList.toggle("toggled");
+        };
+    </script>
 </body>
+
 </html>

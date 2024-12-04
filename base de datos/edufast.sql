@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2024 a las 17:12:57
+-- Tiempo de generación: 03-12-2024 a las 21:49:18
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -44,6 +44,13 @@ CREATE TABLE `actividad` (
   `logro_materia_docente_registro_jornada_id_jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `actividad`
+--
+
+INSERT INTO `actividad` (`id_actividad`, `nombre_act`, `descripcion`, `fecha_entrega`, `logro_id_logro`, `logro_materia_id_materia`, `logro_materia_grado_id_grado`, `logro_materia_area_id_area`, `logro_materia_docente_id_docente`, `logro_materia_docente_cursos_id_cursos`, `logro_materia_docente_cursos_grado_id_grado`, `logro_materia_docente_registro_num_doc`, `logro_materia_docente_registro_rol_id_rol`, `logro_materia_docente_registro_jornada_id_jornada`) VALUES
+(1, 'hh', 'Tendra que escribir un ensayo de mil palabras', '2024-11-12', 880, 1, 22, 1, 1, 6, 11, 1141114912, 5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -74,8 +81,8 @@ INSERT INTO `area` (`id_area`, `nombre_area`) VALUES
 
 CREATE TABLE `asistencia` (
   `idAsistencia` int(11) NOT NULL,
-  `fecha_asistencia` date DEFAULT NULL,
-  `asistencia` char(10) DEFAULT NULL,
+  `fecha_asistencia` datetime DEFAULT current_timestamp(),
+  `asistencia` char(15) DEFAULT NULL,
   `matricula_id_matricula` int(11) NOT NULL,
   `matricula_grado_id_grado` int(11) NOT NULL,
   `matricula_cursos_id_cursos` int(11) NOT NULL,
@@ -84,6 +91,20 @@ CREATE TABLE `asistencia` (
   `matricula_estudiante_registro_rol_id_rol` int(11) NOT NULL,
   `matricula_estudiante_registro_jornada_id_jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `asistencia`
+--
+
+INSERT INTO `asistencia` (`idAsistencia`, `fecha_asistencia`, `asistencia`, `matricula_id_matricula`, `matricula_grado_id_grado`, `matricula_cursos_id_cursos`, `matricula_estudiante_id_estudiante`, `matricula_estudiante_registro_num_doc`, `matricula_estudiante_registro_rol_id_rol`, `matricula_estudiante_registro_jornada_id_jornada`) VALUES
+(1, '2024-12-02 15:47:56', 'Ausente', 1, 10, 1, 1, 1012399678, 6, 2),
+(2, '2024-12-01 21:51:17', 'Presente', 1, 10, 1, 1, 1012399678, 6, 2),
+(3, '2024-12-01 21:51:21', 'Ausente', 1, 10, 1, 1, 1012399678, 6, 2),
+(4, '2024-12-01 21:51:24', 'Presente', 1, 10, 1, 1, 1012399678, 6, 2),
+(5, '2024-12-01 21:56:19', 'Justificado', 1, 10, 1, 1, 1012399678, 6, 2),
+(8, '2024-12-02 14:58:10', 'Presente', 1, 10, 1, 1, 1012399678, 6, 2),
+(10, '2024-12-02 14:59:04', 'Ausente', 1, 10, 1, 1, 1012399678, 6, 2),
+(12, '2024-12-02 15:01:55', 'Ausente', 1, 10, 1, 1, 1012399678, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -172,6 +193,14 @@ CREATE TABLE `estudiante` (
   `registro_rol_id_rol` int(11) NOT NULL,
   `registro_jornada_id_jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estudiante`
+--
+
+INSERT INTO `estudiante` (`id_estudiante`, `sexo`, `fecha_nacimientol`, `Eps`, `RH`, `NIvel educativo`, `Estado`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, 1012399678, 6, 2),
+(2, 'f', NULL, NULL, '0+', 'Bachillerato', NULL, 1012364311, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -295,6 +324,14 @@ CREATE TABLE `matricula` (
   `estudiante_registro_jornada_id_jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `matricula`
+--
+
+INSERT INTO `matricula` (`id_matricula`, `grado_id_grado`, `cursos_id_cursos`, `estudiante_id_estudiante`, `estudiante_registro_num_doc`, `estudiante_registro_rol_id_rol`, `estudiante_registro_jornada_id_jornada`) VALUES
+(1, 10, 1, 1, 1012399678, 6, 2),
+(2, 10, 1, 2, 1012364311, 6, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -381,6 +418,14 @@ CREATE TABLE `public_eventos` (
   `registro_num_doc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `public_eventos`
+--
+
+INSERT INTO `public_eventos` (`id_evento`, `img`, `evento`, `fecha_evento`, `registro_num_doc`) VALUES
+(2, 0x4556454e544f312e6a7067, 'Dia de la independencia. Todos los estudiantes con sus camisas de colombia', '2024-08-13', 56789900),
+(3, 0x4556454e544f312e322e6a7067, 'Dia de la colombianidad, todos los estudiantes con sus camisas de colombia', '2024-10-12', 56789900);
+
 -- --------------------------------------------------------
 
 --
@@ -389,10 +434,18 @@ CREATE TABLE `public_eventos` (
 
 CREATE TABLE `public_noticias` (
   `id_noticia` int(11) NOT NULL,
-  `info` varchar(255) DEFAULT NULL,
-  `organizado_por` char(90) DEFAULT NULL,
+  `titulo` char(100) NOT NULL,
+  `info` longtext DEFAULT NULL,
   `registro_num_doc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `public_noticias`
+--
+
+INSERT INTO `public_noticias` (`id_noticia`, `titulo`, `info`, `registro_num_doc`) VALUES
+(1, 'Estimados padres de familia y acudientes:', 'Reciban un cordial saludo. Nos permitimos informarles que la entrega de boletines académicos del segundo trimestre se realizará el próximo viernes, 12 de julio de 2024 de 8:00am a 12:00 pm. El lugar de la reunión será en los salones donde los estudiantes toman la clase. <br><br>\nEs fundamental que asistan para conocer el rendimiento académico de sus hijos y discutir cualquier inquietud con los profesores. En caso de no poder asistir, favor comunicarse con la coordinación académica para programar una cita alternativa.', 56789900),
+(2, 'Cordial saludo', 'Les informamos que la tercera asamblea de padres de familia se realizará el próximo viernes 17 de julio en el horario de 7:00 a 8:20 am. Agradecemos su puntualidad ya que los docentes tienen clase a las 8:30am.', 56789900);
 
 -- --------------------------------------------------------
 
@@ -420,12 +473,17 @@ CREATE TABLE `registro` (
 --
 
 INSERT INTO `registro` (`num_doc`, `tipo_doc`, `foto_perfil`, `nombres`, `apellidos`, `cel`, `telefono`, `direccion`, `correo`, `contraseña`, `rol_id_rol`, `jornada_id_jornada`) VALUES
+(3456780, 'TI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1234', 6, 2),
+(9876500, 'cc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1234', 5, 2),
+(52762656, 'CC', 0x363734653939323531323165635f496d6167656e20646520576861747341707020323032342d30382d30362061206c61732030382e34352e30375f38643334663663342e6a7067, 'Luz Adriana', 'Herrera Gonzales', '3014390312', '0', 'cra80 #18 a-58', 'yised@gmail.com', '$2y$10$MIVl.rFj3.1q0fbP5fqA/uavnhCpv9JP4L9.PpOUcqotQuS79pK7.', 4, 2),
 (56789900, 'TI', 0x363734393637623365323462635f49372d31302d32342e6a7067, 'yised Dayana', 'castiblanco Herrera', '3213675466', '3146755158', 'carrera 15 c bis # 18A-60', 'yised@gmail.com', '$2y$10$dvVj97Tpv7qzs.jpeC1ZZ.SHRVg5s2UtMsJ/xKlvc3gpiUE7Rmlay', 1, 2),
 (98765433, 'TI', 0x363734393633323464646131385f496d6167656e20646520576861747341707020323032342d31302d31342061206c61732031362e31342e33385f31313435653932652e6a7067, 'cristiam', 'castiblanco', '3213675466', '3146755158', '11', 'yised@gmail.com', '$2y$10$YYGAPucltsGZPcMy2fwvNunwpBFXC0wuVc4lvA304plEruIDfzeLG', 1, 2),
 (123678944, 'TI', 0x363734393631633034313739665f496d6167656e20646520576861747341707020323032342d30382d30362061206c61732030382e34352e30375f38643334663663342e6a7067, 'cristiam', 'cadena', '3213675466', '3146755158', 'carrera 15 c bis # 18A-60', 'yised@gmail.com', '$2y$10$3sn91bx7Qrxo5KOERzJole81X0s8hlJu6xciXzuaKRZyGXJk2Ro3W', 1, 2),
+(1012364311, 'TI', 0x363734643236616432376633385f63686971756974612e6a7067, 'Stefanni Juliana', 'Castiblanco Herrera', '3213675466', '3144575019', 'cra80 #18 a-58', 'jualian@gmail.com', '$2y$10$xUuwag238zm19v/SOWoH1e1LX8tdqowv88ybYgBTb2G6Ueis5RrzW', 6, 2),
+(1012399678, 'TI', 0x363734633031306665343561345f496d6167656e20646520576861747341707020323032342d30382d30362061206c61732030382e34352e30375f38643334663663342e6a7067, 'yised', 'castiblanco', '3213675465', '3146755158', 'carrera 15 c bis # 18A-60', 'yised@gmail.com', '$2y$10$Pl.MLJq6mIPHoen3d1jMkekGP3RBnq3yLqC9WIgsDNEmKNdfpeL32', 6, 2),
+(1016970432, 'TI', 0x363734653062646662366164375f706167696e6161646d696e2e706e67, 'cristiam', 'cadena', '3154555320', '3425345', 'carrera 15 c bis # 18A-60', 'cristiam@gmail.com', '$2y$10$5P2nQuVLJalqHNv1yLfQ5.vxSYKsNR0pjPSfHmXUWtvrqeumQXdDG', 1, 2),
 (1141114912, 'TI', NULL, 'yised', 'castiblanco', '3213675466', NULL, NULL, 'a@gmail.com', '12345', 5, 1),
-(2147483647, 'TI', 0x363734393631333938393461325f49372d31302d32342e6a7067, 'yised', 'castiblanco', '3213675466', '3146755158', 'carrera 15 c bis # 18A-60', 'yised@gmail.com', '$2y$10$JoeQlWb4YAZ37WK6YS9mw.mzSGL9lxrIbR49WpirBAeyJeoBcCnGm', 1, 2),
-(2147483647, 'TI', 0x363734393632376533323465355f496d6167656e20646520576861747341707020323032342d30382d30362061206c61732030382e34352e30375f38643334663663342e6a7067, 'yised', 'castiblanco', '111', '11', '11', 'yised@gmail.com', '$2y$10$Cseobg5TtXzwnLgDqlwTFO38wi9LjBjfC7LpP5Z5hnigyA8lSdtbG', 2, 2);
+(2147483647, 'TI', 0x363734393631333938393461325f49372d31302d32342e6a7067, 'yised', 'castiblanco', '3213675466', '3146755158', 'carrera 15 c bis # 18A-60', 'yised@gmail.com', '$2y$10$JoeQlWb4YAZ37WK6YS9mw.mzSGL9lxrIbR49WpirBAeyJeoBcCnGm', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -581,6 +639,7 @@ ALTER TABLE `public_noticias`
 --
 ALTER TABLE `registro`
   ADD PRIMARY KEY (`num_doc`,`rol_id_rol`,`jornada_id_jornada`),
+  ADD UNIQUE KEY `num_doc` (`num_doc`),
   ADD KEY `fk_registro_rol1_idx` (`rol_id_rol`),
   ADD KEY `fk_registro_jornada1_idx` (`jornada_id_jornada`);
 
@@ -598,13 +657,19 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `area`
 --
 ALTER TABLE `area`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `asistencia`
+--
+ALTER TABLE `asistencia`
+  MODIFY `idAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `boletin`
@@ -623,6 +688,12 @@ ALTER TABLE `cursos`
 --
 ALTER TABLE `docente`
   MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `estudiante`
+--
+ALTER TABLE `estudiante`
+  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `grado`
@@ -646,7 +717,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `nota`
@@ -664,13 +735,13 @@ ALTER TABLE `observador`
 -- AUTO_INCREMENT de la tabla `public_eventos`
 --
 ALTER TABLE `public_eventos`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `public_noticias`
 --
 ALTER TABLE `public_noticias`
-  MODIFY `id_noticia` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_noticia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -686,25 +757,25 @@ ALTER TABLE `rol`
 -- Filtros para la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  ADD CONSTRAINT `fk_actividad_logro1` FOREIGN KEY (`logro_id_logro`,`logro_materia_id_materia`,`logro_materia_grado_id_grado`,`logro_materia_area_id_area`,`logro_materia_docente_id_docente`,`logro_materia_docente_cursos_id_cursos`,`logro_materia_docente_cursos_grado_id_grado`,`logro_materia_docente_registro_num_doc`,`logro_materia_docente_registro_rol_id_rol`,`logro_materia_docente_registro_jornada_id_jornada`) REFERENCES `logro` (`id_logro`, `materia_id_materia`, `materia_grado_id_grado`, `materia_area_id_area`, `materia_docente_id_docente`, `materia_docente_cursos_id_cursos`, `materia_docente_cursos_grado_id_grado`, `materia_docente_registro_num_doc`, `materia_docente_registro_rol_id_rol`, `materia_docente_registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_actividad_logro1` FOREIGN KEY (`logro_id_logro`,`logro_materia_id_materia`,`logro_materia_grado_id_grado`,`logro_materia_area_id_area`,`logro_materia_docente_id_docente`,`logro_materia_docente_cursos_id_cursos`,`logro_materia_docente_cursos_grado_id_grado`,`logro_materia_docente_registro_num_doc`,`logro_materia_docente_registro_rol_id_rol`,`logro_materia_docente_registro_jornada_id_jornada`) REFERENCES `logro` (`id_logro`, `materia_id_materia`, `materia_grado_id_grado`, `materia_area_id_area`, `materia_docente_id_docente`, `materia_docente_cursos_id_cursos`, `materia_docente_cursos_grado_id_grado`, `materia_docente_registro_num_doc`, `materia_docente_registro_rol_id_rol`, `materia_docente_registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  ADD CONSTRAINT `fk_Asistencia_matricula1` FOREIGN KEY (`matricula_id_matricula`,`matricula_grado_id_grado`,`matricula_cursos_id_cursos`,`matricula_estudiante_id_estudiante`,`matricula_estudiante_registro_num_doc`,`matricula_estudiante_registro_rol_id_rol`,`matricula_estudiante_registro_jornada_id_jornada`) REFERENCES `matricula` (`id_matricula`, `grado_id_grado`, `cursos_id_cursos`, `estudiante_id_estudiante`, `estudiante_registro_num_doc`, `estudiante_registro_rol_id_rol`, `estudiante_registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Asistencia_matricula1` FOREIGN KEY (`matricula_id_matricula`,`matricula_grado_id_grado`,`matricula_cursos_id_cursos`,`matricula_estudiante_id_estudiante`,`matricula_estudiante_registro_num_doc`,`matricula_estudiante_registro_rol_id_rol`,`matricula_estudiante_registro_jornada_id_jornada`) REFERENCES `matricula` (`id_matricula`, `grado_id_grado`, `cursos_id_cursos`, `estudiante_id_estudiante`, `estudiante_registro_num_doc`, `estudiante_registro_rol_id_rol`, `estudiante_registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `boletin`
 --
 ALTER TABLE `boletin`
-  ADD CONSTRAINT `fk_boletin_observador1` FOREIGN KEY (`observador_id_observador`) REFERENCES `observador` (`id_observador`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_boletin_observador1` FOREIGN KEY (`observador_id_observador`) REFERENCES `observador` (`id_observador`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  ADD CONSTRAINT `fk_cursos_grado1` FOREIGN KEY (`grado_id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_cursos_grado1` FOREIGN KEY (`grado_id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `docente`
@@ -717,13 +788,13 @@ ALTER TABLE `docente`
 -- Filtros para la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  ADD CONSTRAINT `fk_estudiante_registro1` FOREIGN KEY (`registro_num_doc`,`registro_rol_id_rol`,`registro_jornada_id_jornada`) REFERENCES `registro` (`num_doc`, `rol_id_rol`, `jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_estudiante_registro1` FOREIGN KEY (`registro_num_doc`,`registro_rol_id_rol`,`registro_jornada_id_jornada`) REFERENCES `registro` (`num_doc`, `rol_id_rol`, `jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `logro`
 --
 ALTER TABLE `logro`
-  ADD CONSTRAINT `fk_logro_materia1` FOREIGN KEY (`materia_id_materia`,`materia_grado_id_grado`,`materia_area_id_area`,`materia_docente_id_docente`,`materia_docente_cursos_id_cursos`,`materia_docente_cursos_grado_id_grado`,`materia_docente_registro_num_doc`,`materia_docente_registro_rol_id_rol`,`materia_docente_registro_jornada_id_jornada`) REFERENCES `materia` (`id_materia`, `grado_id_grado`, `area_id_area`, `docente_id_docente`, `docente_cursos_id_cursos`, `docente_cursos_grado_id_grado`, `docente_registro_num_doc`, `docente_registro_rol_id_rol`, `docente_registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_logro_materia1` FOREIGN KEY (`materia_id_materia`,`materia_grado_id_grado`,`materia_area_id_area`,`materia_docente_id_docente`,`materia_docente_cursos_id_cursos`,`materia_docente_cursos_grado_id_grado`,`materia_docente_registro_num_doc`,`materia_docente_registro_rol_id_rol`,`materia_docente_registro_jornada_id_jornada`) REFERENCES `materia` (`id_materia`, `grado_id_grado`, `area_id_area`, `docente_id_docente`, `docente_cursos_id_cursos`, `docente_cursos_grado_id_grado`, `docente_registro_num_doc`, `docente_registro_rol_id_rol`, `docente_registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `materia`
@@ -737,35 +808,35 @@ ALTER TABLE `materia`
 -- Filtros para la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  ADD CONSTRAINT `fk_matricula_cursos1` FOREIGN KEY (`cursos_id_cursos`) REFERENCES `cursos` (`id_cursos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_matricula_estudiante1` FOREIGN KEY (`estudiante_id_estudiante`,`estudiante_registro_num_doc`,`estudiante_registro_rol_id_rol`,`estudiante_registro_jornada_id_jornada`) REFERENCES `estudiante` (`id_estudiante`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_matricula_grado1` FOREIGN KEY (`grado_id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_matricula_cursos1` FOREIGN KEY (`cursos_id_cursos`) REFERENCES `cursos` (`id_cursos`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_matricula_estudiante1` FOREIGN KEY (`estudiante_id_estudiante`,`estudiante_registro_num_doc`,`estudiante_registro_rol_id_rol`,`estudiante_registro_jornada_id_jornada`) REFERENCES `estudiante` (`id_estudiante`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_matricula_grado1` FOREIGN KEY (`grado_id_grado`) REFERENCES `grado` (`id_grado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `nota`
 --
 ALTER TABLE `nota`
-  ADD CONSTRAINT `fk_nota_actividad1` FOREIGN KEY (`actividad_id_actividad`,`actividad_logro_id_logro`,`actividad_logro_materia_id_materia`,`actividad_logro_materia_grado_id_grado`,`actividad_logro_materia_area_id_area`,`actividad_logro_materia_docente_id_docente`,`actividad_logro_materia_docente_cursos_id_cursos`,`actividad_logro_materia_docente_cursos_grado_id_grado`,`actividad_logro_materia_docente_registro_num_doc`,`actividad_logro_materia_docente_registro_rol_id_rol`,`actividad_logro_materia_docente_registro_jornada_id_jornada`) REFERENCES `actividad` (`id_actividad`, `logro_id_logro`, `logro_materia_id_materia`, `logro_materia_grado_id_grado`, `logro_materia_area_id_area`, `logro_materia_docente_id_docente`, `logro_materia_docente_cursos_id_cursos`, `logro_materia_docente_cursos_grado_id_grado`, `logro_materia_docente_registro_num_doc`, `logro_materia_docente_registro_rol_id_rol`, `logro_materia_docente_registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_nota_boletin1` FOREIGN KEY (`boletin_id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_nota_actividad1` FOREIGN KEY (`actividad_id_actividad`,`actividad_logro_id_logro`,`actividad_logro_materia_id_materia`,`actividad_logro_materia_grado_id_grado`,`actividad_logro_materia_area_id_area`,`actividad_logro_materia_docente_id_docente`,`actividad_logro_materia_docente_cursos_id_cursos`,`actividad_logro_materia_docente_cursos_grado_id_grado`,`actividad_logro_materia_docente_registro_num_doc`,`actividad_logro_materia_docente_registro_rol_id_rol`,`actividad_logro_materia_docente_registro_jornada_id_jornada`) REFERENCES `actividad` (`id_actividad`, `logro_id_logro`, `logro_materia_id_materia`, `logro_materia_grado_id_grado`, `logro_materia_area_id_area`, `logro_materia_docente_id_docente`, `logro_materia_docente_cursos_id_cursos`, `logro_materia_docente_cursos_grado_id_grado`, `logro_materia_docente_registro_num_doc`, `logro_materia_docente_registro_rol_id_rol`, `logro_materia_docente_registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_nota_boletin1` FOREIGN KEY (`boletin_id_boletin`) REFERENCES `boletin` (`id_boletin`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `observador_has_estudiante`
 --
 ALTER TABLE `observador_has_estudiante`
-  ADD CONSTRAINT `fk_observador_has_estudiante_estudiante1` FOREIGN KEY (`estudiante_id_estudiante`,`estudiante_registro_num_doc`,`estudiante_registro_rol_id_rol`,`estudiante_registro_jornada_id_jornada`) REFERENCES `estudiante` (`id_estudiante`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_observador_has_estudiante_observador1` FOREIGN KEY (`observador_id_observador`) REFERENCES `observador` (`id_observador`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_observador_has_estudiante_estudiante1` FOREIGN KEY (`estudiante_id_estudiante`,`estudiante_registro_num_doc`,`estudiante_registro_rol_id_rol`,`estudiante_registro_jornada_id_jornada`) REFERENCES `estudiante` (`id_estudiante`, `registro_num_doc`, `registro_rol_id_rol`, `registro_jornada_id_jornada`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_observador_has_estudiante_observador1` FOREIGN KEY (`observador_id_observador`) REFERENCES `observador` (`id_observador`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `public_eventos`
 --
 ALTER TABLE `public_eventos`
-  ADD CONSTRAINT `fk_public_eventos_registro` FOREIGN KEY (`registro_num_doc`) REFERENCES `registro` (`num_doc`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_public_eventos_registro` FOREIGN KEY (`registro_num_doc`) REFERENCES `registro` (`num_doc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `public_noticias`
 --
 ALTER TABLE `public_noticias`
-  ADD CONSTRAINT `fk_public_noticias_registro1` FOREIGN KEY (`registro_num_doc`) REFERENCES `registro` (`num_doc`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_public_noticias_registro1` FOREIGN KEY (`registro_num_doc`) REFERENCES `registro` (`num_doc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `registro`
